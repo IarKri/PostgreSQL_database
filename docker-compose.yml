@@ -1,0 +1,14 @@
+services:
+  db:
+    build: .
+    container_name: matrix_users_postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "5433:5432"
+    volumes:
+      - matrix_users_data:/var/lib/postgresql/data
+
+volumes:ц
+  matrix_users_data:
