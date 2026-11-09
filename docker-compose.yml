@@ -9,6 +9,23 @@ services:
       - "5433:5432"
     volumes:
       - matrix_users_data:/var/lib/postgresql/data
-
-volumes:ц
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U matrix_user -d matrix_users_database"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  flyway:
+    image: flyway/flyway
+    command:
+      - "-url=jdbc:postgresql://db:5432/${POSTGRES_DB}"
+      - "-user=${POSTGRES_USER}"
+      - "-password=${POSTGRES_PASSWORD}"
+      - "-locations=filesystem:/flyway/sql"
+      - "migrate"
+    volumes:
+      - ./db/migrations:/flyway/sql:ro
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
   matrix_users_data:

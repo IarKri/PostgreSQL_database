@@ -2,7 +2,8 @@ CREATE TABLE users(
 	parent_id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	user_fullname VARCHAR(100) NOT NULL,
 	email VARCHAR(100) NOT NULL UNIQUE,
-	hash_password TEXT NOT NULL
+	hash_password TEXT NOT NULL,
+	user_agreement BOOLEAN NOT NULL
 );
 
 CREATE TABLE users_children(
